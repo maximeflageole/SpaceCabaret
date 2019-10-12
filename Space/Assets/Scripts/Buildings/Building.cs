@@ -11,10 +11,13 @@ public class Building : MonoBehaviour
     protected float m_constructionActualTime;
     public bool m_inConstruction;
     public bool m_inOperation;
+    public Material m_placementMaterial;
+    public Material m_inConstructionMaterial;
+    public Material m_inOperationMaterial;
 
     public void UpdatePlacement()
     {
-        if (m_inConstruction)
+        if (!m_inConstruction && !m_inOperation)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -31,12 +34,14 @@ public class Building : MonoBehaviour
     public void StartConstruction()
     {
         m_inConstruction = true;
+        gameObject.GetComponent<MeshRenderer>().material = m_inConstructionMaterial;
         m_constructionActualTime = 0;
     }
 
     public void EndConstruction()
     {
         m_inConstruction = false;
+        gameObject.GetComponent<MeshRenderer>().material = m_inOperationMaterial;
         m_inOperation = true;
     }
 

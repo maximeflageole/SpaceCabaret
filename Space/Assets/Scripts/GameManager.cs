@@ -88,6 +88,10 @@ public class GameManager : MonoBehaviour
                         m_currentSelectedWorker = worker;
                     }
                 }
+                else if (building == null && m_currentSelectedBuilding)
+                {
+                    m_currentSelectedBuilding.StartConstruction();
+                }
             }
             if (Input.GetMouseButtonDown(1))
             {
