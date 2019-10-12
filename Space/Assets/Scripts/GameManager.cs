@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +14,8 @@ public class GameManager : MonoBehaviour
     public SpaceResource m_metalReserve = default;
     public List<WorkerAI> m_workers = new List<WorkerAI>();
     public float m_workerO2ConsumptionRate;
+    public GameObject m_constructionPanel;
+    public BuildingUI m_buildingUI;
 
     public void Awake()
     {
@@ -32,6 +36,16 @@ public class GameManager : MonoBehaviour
     public void GainResource(ESpaceResource resource, float amount)
     {
         GetReserveOfType(resource).GainResource(amount);
+    }
+
+    public void OnConstructionBtnClicked()
+    {
+        m_constructionPanel.SetActive(true);
+    }
+
+    public void CloseConstructionPanel()
+    {
+        m_constructionPanel.SetActive(false);
     }
 
     public SpaceResource GetReserveOfType(ESpaceResource resource)
@@ -58,6 +72,11 @@ public class GameManager : MonoBehaviour
         }
         m_oxgenReserve.ConsumeResource(m_workerO2ConsumptionRate * (float)m_workers.Count * Time.deltaTime);
 
+        if (EventSystem.current.IsPointerOverGameObject(-1))    // is the touch on the GUI
+        {
+            // GUI Action
+            return;
+        }
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
@@ -70,11 +89,13 @@ public class GameManager : MonoBehaviour
                 {
                     if (m_currentSelectedBuilding == building)
                     {
+                        m_currentSelectedBuilding.StartConstruction();
                         m_currentSelectedBuilding = null;
                     }
                     else
                     {
                         m_currentSelectedBuilding = building;
+                        m_buildingUI.SetSelectedBuilding(building);
                     }
                 }
                 else if (worker != null)
@@ -87,6 +108,11 @@ public class GameManager : MonoBehaviour
                     {
                         m_currentSelectedWorker = worker;
                     }
+                }
+                else if (m_currentSelectedBuilding)
+                {
+                    m_currentSelectedBuilding.StartConstruction();
+                    m_currentSelectedBuilding = null;
                 }
             }
             if (Input.GetMouseButtonDown(1))

@@ -11,10 +11,15 @@ public class Building : MonoBehaviour
     protected float m_constructionActualTime;
     public bool m_inConstruction;
     public bool m_inOperation;
+    public Material m_placementMaterial;
+    public Material m_inConstructionMaterial;
+    public Material m_inOperationMaterial;
+    protected int m_maxWorkers = 5;
+    protected int m_currentWorkers;
 
     public void UpdatePlacement()
     {
-        if (m_inConstruction)
+        if (!m_inConstruction && !m_inOperation)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -30,13 +35,18 @@ public class Building : MonoBehaviour
 
     public void StartConstruction()
     {
-        m_inConstruction = true;
-        m_constructionActualTime = 0;
+        if (!m_inOperation && !m_inConstruction)
+        {
+            m_inConstruction = true;
+            gameObject.GetComponent<MeshRenderer>().material = m_inConstructionMaterial;
+            m_constructionActualTime = 0;
+        }
     }
 
     public void EndConstruction()
     {
         m_inConstruction = false;
+        gameObject.GetComponent<MeshRenderer>().material = m_inOperationMaterial;
         m_inOperation = true;
     }
 
@@ -50,5 +60,10 @@ public class Building : MonoBehaviour
                 EndConstruction();
             }
         }
+    }
+
+    public string GetUIValues()
+    {
+        return (m_currentWorkers.ToString() + "/" + m_maxWorkers.ToString());
     }
 }
