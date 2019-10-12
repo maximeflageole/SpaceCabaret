@@ -7,16 +7,47 @@ public class Building : MonoBehaviour
     public Vector2Int m_gameSize;
     public GameObject m_location;
     public Vector3 m_offset;
+    public float m_constructionTime;
+    protected float m_constructionActualTime;
+    public bool m_inConstruction;
+    public bool m_inOperation;
 
     public void UpdatePlacement()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
+        if (m_inConstruction)
         {
-            if (hit.transform.gameObject.GetComponent<Tile>())
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
             {
-                transform.position = hit.transform.position + m_offset;
+                if (hit.transform.gameObject.GetComponent<Tile>())
+                {
+                    transform.position = hit.transform.position + m_offset;
+                }
+            }
+        }
+    }
+
+    public void StartConstruction()
+    {
+        m_inConstruction = true;
+        m_constructionActualTime = 0;
+    }
+
+    public void EndConstruction()
+    {
+        m_inConstruction = false;
+        m_inOperation = true;
+    }
+
+    protected virtual void Update()
+    {
+        if (m_inConstruction)
+        {
+            m_constructionActualTime += Time.deltaTime;
+            if (m_constructionActualTime >= m_constructionTime)
+            {
+                EndConstruction();
             }
         }
     }
