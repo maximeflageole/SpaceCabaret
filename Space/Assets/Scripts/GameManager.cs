@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public Building m_currentSelectedBuilding;
+    public WorkerAI m_currentSelectedWorker;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
         {
+            var worker = hit.transform.gameObject.GetComponent<WorkerAI>();
             if (Input.GetMouseButtonDown(0))
             {
                 var building = hit.transform.gameObject.GetComponent<Building>();
@@ -36,6 +38,24 @@ public class GameManager : MonoBehaviour
                     {
                         m_currentSelectedBuilding = building;
                     }
+                }
+                else if (worker != null)
+                {
+                    if (m_currentSelectedWorker == worker)
+                    {
+                        m_currentSelectedWorker = null;
+                    }
+                    else
+                    {
+                        m_currentSelectedWorker = worker;
+                    }
+                }
+            }
+            if (Input.GetMouseButtonDown(1))
+            {
+                if (m_currentSelectedWorker != null)
+                {
+                    m_currentSelectedWorker.GoTo(hit.point);
                 }
             }
         }
