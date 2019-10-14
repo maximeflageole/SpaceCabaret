@@ -12,7 +12,7 @@ public class ProductionBuilding : Building
         base.Update();
         if (m_inOperation)
         {
-            GameManager.m_instance.GainResource(m_producedResource, m_productionRate * Time.deltaTime);
+            GameManager.m_instance.GainResource(m_producedResource, m_productionRate * Time.deltaTime * m_currentWorkers);
         }
     }
 }

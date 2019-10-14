@@ -11,6 +11,7 @@ public class WorkerAI : MonoBehaviour
     [SerializeField]
     protected Transform m_transDestination = default;
     protected float m_locationRadiusAcceptance = 1.0f;
+    public Building m_currentJob;
 
     public void GoTo(Vector3 location)
     {

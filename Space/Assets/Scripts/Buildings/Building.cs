@@ -16,6 +16,7 @@ public class Building : MonoBehaviour
     public Material m_inOperationMaterial;
     protected int m_maxWorkers = 5;
     protected int m_currentWorkers;
+    public List<WorkerAI> m_workers = new List<WorkerAI>();
 
     public void UpdatePlacement()
     {
@@ -65,5 +66,29 @@ public class Building : MonoBehaviour
     public string GetUIValues()
     {
         return (m_currentWorkers.ToString() + "/" + m_maxWorkers.ToString());
+    }
+
+    public void TryGainWorker(int amount)
+    {
+        if (amount > 0)
+        {
+            if (GameManager.m_instance.GetUnemployedWorkersAmount() <= 0)
+            {
+                return;
+            }
+            if (m_currentWorkers + amount <= m_maxWorkers)
+            {
+                m_currentWorkers += amount;
+                GameManager.m_instance.AssignUnemployedWorkerToJob(this);
+            }
+        }
+        if (amount < 0)
+        {
+            if (m_currentWorkers + amount >= 0)
+            {
+                GameManager.m_instance.UnassignEmployeeFromJob(this);
+                m_currentWorkers += amount;
+            }
+        }
     }
 }

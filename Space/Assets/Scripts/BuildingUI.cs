@@ -9,11 +9,15 @@ public class BuildingUI : MonoBehaviour
     public Button m_plusBtn;
     public Button m_minusBtn;
     public TextMeshProUGUI m_textMesh;
+    protected Building m_currentBuilding;
 
     public void SetSelectedBuilding(Building building)
     {
         if (building.m_inOperation)
-        gameObject.SetActive(true);
+        {
+            m_currentBuilding = building;
+            gameObject.SetActive(true);
+        }
     }
 
     void Update()
@@ -27,5 +31,15 @@ public class BuildingUI : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
+    }
+
+    public void OnPlusClicked()
+    {
+        m_currentBuilding.TryGainWorker(1);
+    }
+
+    public void OnMinusClicked()
+    {
+        m_currentBuilding.TryGainWorker(-1);
     }
 }

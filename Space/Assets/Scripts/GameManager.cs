@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public SpaceResource m_oxgenReserve = default;
     public SpaceResource m_metalReserve = default;
     public List<WorkerAI> m_workers = new List<WorkerAI>();
+    public List<WorkerAI> m_unemployedWorkers = new List<WorkerAI>();
     public float m_workerO2ConsumptionRate;
     public GameObject m_constructionPanel;
     public BuildingUI m_buildingUI;
@@ -32,10 +33,40 @@ public class GameManager : MonoBehaviour
     public void Start()
     {
         m_oxgenReserve.Instantiate(15, 30);
+        foreach (var worker in m_workers)
+        {
+            if (worker.m_currentJob == null)
+            {
+                m_unemployedWorkers.Add(worker);
+            }
+        }
     }
+
     public void GainResource(ESpaceResource resource, float amount)
     {
         GetReserveOfType(resource).GainResource(amount);
+    }
+
+    public int GetUnemployedWorkersAmount()
+    {
+        return m_unemployedWorkers.Count;
+    }
+
+    public void AssignUnemployedWorkerToJob(Building building)
+    {
+        m_unemployedWorkers[0].m_currentJob = building;
+        building.m_workers.Add(m_unemployedWorkers[0]);
+        m_unemployedWorkers.RemoveAt(0);
+    }
+
+    public void UnassignEmployeeFromJob(Building building)
+    {
+        if (building.m_workers.Count != 0)
+        {
+            m_unemployedWorkers.Add(building.m_workers[0]);
+            building.m_workers[0].m_currentJob = null;
+            building.m_workers.RemoveAt(0);
+        }
     }
 
     public void OnConstructionBtnClicked()
