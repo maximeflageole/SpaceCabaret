@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
     {
         m_unemployedWorkers[0].m_currentJob = building;
         building.m_workers.Add(m_unemployedWorkers[0]);
+        m_unemployedWorkers[0].m_orderList = building.m_orderList;
         m_unemployedWorkers.RemoveAt(0);
     }
 
@@ -65,6 +66,8 @@ public class GameManager : MonoBehaviour
         {
             m_unemployedWorkers.Add(building.m_workers[0]);
             building.m_workers[0].m_currentJob = null;
+            m_workers[0].m_orderList.Clear();
+            m_workers[0].m_currentOrderIndex = -1;
             building.m_workers.RemoveAt(0);
         }
     }

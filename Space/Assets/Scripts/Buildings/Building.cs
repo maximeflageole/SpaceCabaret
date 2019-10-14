@@ -17,6 +17,7 @@ public class Building : MonoBehaviour
     protected int m_maxWorkers = 5;
     protected int m_currentWorkers;
     public List<WorkerAI> m_workers = new List<WorkerAI>();
+    public List<sOrder> m_orderList = new List<sOrder>();
 
     public void UpdatePlacement()
     {
@@ -91,4 +92,31 @@ public class Building : MonoBehaviour
             }
         }
     }
+
+    public Vector3 GetClosestResource()
+    {
+        //TODO: Redo this
+        return new Vector3(transform.position.x, transform.position.y, transform.position.z);
+    }
+
+    public Vector3 GetClosestDump()
+    {
+        //TODO: Redo this
+        return Vector3.zero;
+    }
+}
+
+[System.Serializable]
+public struct sOrder
+{
+    public EOrderType order;
+    public float time;
+}
+
+public enum EOrderType
+{
+    Collect,
+    Dump,
+    Idle,
+    Count
 }

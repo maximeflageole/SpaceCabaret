@@ -133,5 +133,11 @@ MonoBehaviour:
     type: 2}
   m_inOperationMaterial: {fileID: 2100000, guid: 9d1af36cd61af9e4785b8381a65c9246,
     type: 2}
+  m_workers: []
+  m_orderList:
+  - order: 0
+    time: 15
+  - order: 1
+    time: 10
   m_producedResource: 0
   m_productionRate: 0.5
