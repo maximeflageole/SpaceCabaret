@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public float m_workerO2ConsumptionRate;
     public GameObject m_constructionPanel;
     public BuildingUI m_buildingUI;
+    public List<Building> m_buildings;
 
     public void Awake()
     {

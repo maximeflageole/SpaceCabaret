@@ -18,6 +18,12 @@ public class Building : MonoBehaviour
     protected int m_currentWorkers;
     public List<WorkerAI> m_workers = new List<WorkerAI>();
     public List<sOrder> m_orderList = new List<sOrder>();
+    public bool m_isStorage;
+
+    private void Start()
+    {
+        GameManager.m_instance.m_buildings.Add(this);
+    }
 
     public void UpdatePlacement()
     {
@@ -99,10 +105,20 @@ public class Building : MonoBehaviour
         return new Vector3(transform.position.x, transform.position.y, transform.position.z);
     }
 
-    public Vector3 GetClosestDump()
+    public Vector3 GetClosestStorage()
     {
-        //TODO: Redo this
-        return Vector3.zero;
+        Vector3 closestStorageV3 = Vector3.zero;
+        foreach (var building in GameManager.m_instance.m_buildings)
+        {
+            if (building.m_isStorage)
+            {
+                if ((transform.position - building.transform.position).magnitude < (transform.position - closestStorageV3).magnitude)
+                {
+                    closestStorageV3 = building.transform.position;
+                }
+            }
+        }
+        return closestStorageV3;
     }
 }
 

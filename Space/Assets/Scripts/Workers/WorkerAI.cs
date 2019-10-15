@@ -77,7 +77,7 @@ public class WorkerAI : MonoBehaviour
             }
             else if (currentOrder == EOrderType.Dump)
             {
-                GoTo(m_currentJob.GetClosestDump());
+                GoTo(m_currentJob.GetClosestStorage());
             }
         }
     }

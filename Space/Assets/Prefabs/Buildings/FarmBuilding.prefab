@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3525191398211963207}
   - component: {fileID: 3525191398211963203}
   - component: {fileID: 3525191398211963200}
+  - component: {fileID: 5811288414583629161}
   m_Layer: 0
   m_Name: FarmBuilding
   m_TagString: Untagged
@@ -139,5 +140,19 @@ MonoBehaviour:
     time: 15
   - order: 1
     time: 10
+  m_isStorage: 0
   m_producedResource: 0
   m_productionRate: 0.5
+--- !u!65 &5811288414583629161
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3525191398211963225}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.4, y: 1.4, z: 1.4}
+  m_Center: {x: 0, y: 0, z: 0}
